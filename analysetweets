@@ -9,27 +9,28 @@ def senti_dict(sentifile):
         word,score=ln.split("\t") #delimited by tab
         senti_scores[word]=int(score)
     return senti_scores
-    
-    
+
+
 def get_tweets(tweetfile):
     file2 = open(tweetfile)
     tweets=[]
     for tweet in file2:
-    
+
         #tweets will be in json format
         tweetj=json.loads(tweet)
-        
+
         #To determine the keys in the available input file
-        #print tweetj.keys() 
-        
+        #print tweetj.keys()
+        #print tweetj
+
         #Condition to check if tweets has the key 'text' or else program will throw error
         #some tweets does not have the text key
-        if tweetj.has_key('text'):
+        if tweetj.has_key('text') and tweetj['lang'] == "en":
             tweet_text=tweetj["text"].encode('utf-8')
             tweets.append(tweet_text)
-            
+
     return tweets
-    
+
 def cal_score(tweetlist,scoredict):
     length=len(tweetlist)
 
@@ -43,18 +44,18 @@ def cal_score(tweetlist,scoredict):
             else:
                 total = total
         print total
-        
-    
-    
-    
-        
+
+
+
+
+
 
 
 def main():
     scoredict = senti_dict(sys.argv[1])
     tweetlist = get_tweets(sys.argv[2])
     sentiscore = cal_score(tweetlist,scoredict)
-    
+    #print tweetlist
 
 
 
