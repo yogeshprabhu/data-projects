@@ -1,5 +1,6 @@
 import sys
 import json
+import re
 
 def get_tweets(tweetfile):
     file2 = open(tweetfile)
@@ -16,7 +17,7 @@ def get_tweets(tweetfile):
         if 'text' in tweetj.keys():
             tweet_text=tweetj["text"].encode('utf-8')
             tweets.append(tweet_text)
-  		
+      	
 
     return tweets
     
@@ -24,7 +25,9 @@ def unique_list(tweetlist):
     length=len(tweetlist) 
     tweetword_list=[]
     for term in range(length):
-        wordlist=tweetlist[term].split(' ')
+    	dirtylist=re.split('\W+', tweetlist[term])
+        #dirtylist=tweetlist[term].split(' ')
+        wordlist=filter(bool,dirtylist)
         for word in wordlist:
             tweetword_list.append(word)
             
